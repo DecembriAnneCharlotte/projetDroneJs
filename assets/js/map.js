@@ -3,46 +3,46 @@
 
 // Ensemble des coordonnées de départ et d'arrivé de tout les drone : 
 // Drone1 :
-var startCoordinatesAller1 = [43.3083278, -0.3607801];
-var endCoordinatesAller1 = [43.3139968, -0.3747597];
-var startCoordinatesRetour1 = [43.3139968, -0.3747597];
-var endCoordinatesRetour1 = [43.3083278, -0.3607801];
+let startCoordinatesAller1 = [43.3083278, -0.3607801];
+let endCoordinatesAller1 = [43.3139968, -0.3747597];
+let startCoordinatesRetour1 = [43.3139968, -0.3747597];
+let endCoordinatesRetour1 = [43.3083278, -0.3607801];
 // Drone2 : 
-var startCoordinatesAller2 = [43.3085278, -0.3607801];
-var endCoordinatesAller2 = [43.3025006, -0.3433449];
-var startCoordinatesRetour2 = [43.3025006, -0.3433449];
-var endCoordinatesRetour2 = [43.3083278, -0.3607801];
+let startCoordinatesAller2 = [43.3085278, -0.3607801];
+let endCoordinatesAller2 = [43.3025006, -0.3433449];
+let startCoordinatesRetour2 = [43.3025006, -0.3433449];
+let endCoordinatesRetour2 = [43.3083278, -0.3607801];
 // Drone3 :
-var startCoordinatesAller3 = [43.3084278, -0.3608801];
-var endCoordinatesAller3 = [43.303722, -0.357453];
-var startCoordinatesRetour3 = [43.303722, -0.357453];
-var endCoordinatesRetour3 = [43.3084278, -0.3608801];
+let startCoordinatesAller3 = [43.3084278, -0.3608801];
+let endCoordinatesAller3 = [43.303722, -0.357453];
+let startCoordinatesRetour3 = [43.303722, -0.357453];
+let endCoordinatesRetour3 = [43.3084278, -0.3608801];
 // Drone4 :
-var startCoordinatesAller4 = [43.3084278, -0.3606801];
-var endCoordinatesAller4 = [43.2994328, -0.3690295];
-var startCoordinatesRetour4 = [43.2994328, -0.3690295];
-var endCoordinatesRetour4 = [43.3084278, -0.3606801];
+let startCoordinatesAller4 = [43.3084278, -0.3606801];
+let endCoordinatesAller4 = [43.2994328, -0.3690295];
+let startCoordinatesRetour4 = [43.2994328, -0.3690295];
+let endCoordinatesRetour4 = [43.3084278, -0.3606801];
 
 
 // Nombre d'étapes intermédiaires
-var numSteps = 10; 
+let numSteps = 10; 
 
 // calculer les coordonnées intermédiaires
 function interpolateCoordinates(start, end, t) {
-    var lat1 = start[0];
-    var lon1 = start[1];
-    var lat2 = end[0];
-    var lon2 = end[1];
+    let lat1 = start[0];
+    let lon1 = start[1];
+    let lat2 = end[0];
+    let lon2 = end[1];
     
-    var newLat = lat1 + (lat2 - lat1) * t;
-    var newLon = lon1 + (lon2 - lon1) * t;
+    let newLat = lat1 + (lat2 - lat1) * t;
+    let newLon = lon1 + (lon2 - lon1) * t;
     
     return [newLat, newLon];
 }
 
 // Affichage de la Map avec les icons
-var map = L.map('map').setView([43.3084278, -0.3607801], 15);
-var iconofdrone = L.icon({
+let map = L.map('map').setView([43.3084278, -0.3607801], 15);
+let iconofdrone = L.icon({
     iconUrl: '../assets/img/droneicon.png',
     iconSize:[40, 40],
     iconAnchor: [22, 94],
@@ -54,7 +54,7 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Permet de faire apparaitre un popup au click qui affiche les coordonnées
-var popup = L.popup();
+let popup = L.popup();
     function onMapClick(e) {
         popup
             .setLatLng(e.latlng)
@@ -68,25 +68,25 @@ var popup = L.popup();
 // Drone 1 : ********************************************************************************************************************************************************
 
 // tableau calculs des coordonnées
-var intermediateCoordinates1 = [];
+let intermediateCoordinates1 = [];
 
 // Calcule des coordonnées 
-for (var i = 0; i <= numSteps; i++) {
-    var t = i / numSteps;
-    var coordsAl1 = interpolateCoordinates(startCoordinatesAller1, endCoordinatesAller1, t);
+for (let i = 0; i <= numSteps; i++) {
+    let t = i / numSteps;
+    let coordsAl1 = interpolateCoordinates(startCoordinatesAller1, endCoordinatesAller1, t);
     intermediateCoordinates1.push(coordsAl1);
-    var coordsRe1 = interpolateCoordinates(startCoordinatesRetour1, endCoordinatesRetour1, t);
+    let coordsRe1 = interpolateCoordinates(startCoordinatesRetour1, endCoordinatesRetour1, t);
     intermediateCoordinates1.push(coordsRe1);
 }
 
 // tableau coordonnées intermédiaires
-var intermediateLatLngs1 = [];
+let intermediateLatLngs1 = [];
 
 // Convertion des coordonnées intermédiaires en format attendu par L.polyline
-for (var i = 0; i < intermediateCoordinates1.length; i++) {
-    var latAl = intermediateCoordinates1[i][0];
-    var lngAl = intermediateCoordinates1[i][1];
-    var latLngAl = [latAl, lngAl];
+for (let i = 0; i < intermediateCoordinates1.length; i++) {
+    let latAl = intermediateCoordinates1[i][0];
+    let lngAl = intermediateCoordinates1[i][1];
+    let latLngAl = [latAl, lngAl];
     intermediateLatLngs1.push(latLngAl);
 
 
@@ -118,7 +118,7 @@ setTimeout(function(){
 let dataContainer1 = document.getElementById("dataContainer");
 
 // Boucle pour afficher les coordonnées dans la console et dans l'élément HTML
-for (var i = 0; i < intermediateCoordinates1.length; i++) {
+for (let i = 0; i < intermediateCoordinates1.length; i++) {
     
     // Créez un élément HTML pour chaque paire de coordonnées
     let coordinateElement = document.createElement("div");
@@ -135,26 +135,26 @@ for (var i = 0; i < intermediateCoordinates1.length; i++) {
 
 // Drone 2 : ******************************************************************************************************************************************************
 
-var intermediateCoordinates2 = [];
+let intermediateCoordinates2 = [];
 
 // Calculez les coordonnées 
-for (var i = 0; i <= numSteps; i++) {
-    var t = i / numSteps;
-    var coordsAl2 = interpolateCoordinates(startCoordinatesAller2, endCoordinatesAller2, t);
+for (let i = 0; i <= numSteps; i++) {
+    let t = i / numSteps;
+    let coordsAl2 = interpolateCoordinates(startCoordinatesAller2, endCoordinatesAller2, t);
     intermediateCoordinates2.push(coordsAl2);
-    var coordsRe2 = interpolateCoordinates(startCoordinatesRetour2, endCoordinatesRetour2, t);
+    let coordsRe2 = interpolateCoordinates(startCoordinatesRetour2, endCoordinatesRetour2, t);
     intermediateCoordinates2.push(coordsRe2);
 }
 
 
 // tableau coordonnées intermédiaires
-var intermediateLatLngs2 = [];
+let intermediateLatLngs2 = [];
 
 // Convertion des coordonnées intermédiaires en format attendu par L.polyline
-for (var i = 0; i < intermediateCoordinates1.length; i++) {
-    var latAl = intermediateCoordinates2[i][0];
-    var lngAl = intermediateCoordinates2[i][1];
-    var latLngAl = [latAl, lngAl];
+for (let i = 0; i < intermediateCoordinates1.length; i++) {
+    let latAl = intermediateCoordinates2[i][0];
+    let lngAl = intermediateCoordinates2[i][1];
+    let latLngAl = [latAl, lngAl];
     intermediateLatLngs2.push(latLngAl);
 
 
@@ -181,7 +181,7 @@ setTimeout(function(){
 let dataContainer2 = document.getElementById("dataContainer");
 
 // Boucle pour afficher les coordonnées dans la console et dans l'élément HTML
-for (var i = 0; i < intermediateCoordinates2.length; i++) {
+for (let i = 0; i < intermediateCoordinates2.length; i++) {
     
     // Créez un élément HTML pour chaque paire de coordonnées
     let coordinateElement = document.createElement("div");
@@ -198,24 +198,24 @@ for (var i = 0; i < intermediateCoordinates2.length; i++) {
 
 // Drone 3 : ******************************************************************************************************************************************************
 
-var intermediateCoordinates3 = [];
+let intermediateCoordinates3 = [];
 
 // Calcule des coordonnées 
-for (var i = 0; i <= numSteps; i++) {
-    var t = i / numSteps;
-    var coordsAl3 = interpolateCoordinates(startCoordinatesAller3, endCoordinatesAller3, t);
+for (let i = 0; i <= numSteps; i++) {
+    let t = i / numSteps;
+    let coordsAl3 = interpolateCoordinates(startCoordinatesAller3, endCoordinatesAller3, t);
     intermediateCoordinates3.push(coordsAl3);
-    var coordsRe3 = interpolateCoordinates(startCoordinatesRetour3, endCoordinatesRetour3, t);
+    let coordsRe3 = interpolateCoordinates(startCoordinatesRetour3, endCoordinatesRetour3, t);
     intermediateCoordinates3.push(coordsRe3);
 }
 
-var intermediateLatLngs3 = [];
+let intermediateLatLngs3 = [];
 
 // Convertion des coordonnées intermédiaires en format attendu par L.polyline
-for (var i = 0; i < intermediateCoordinates3.length; i++) {
-    var latAl = intermediateCoordinates3[i][0];
-    var lngAl = intermediateCoordinates3[i][1];
-    var latLngAl = [latAl, lngAl];
+for (let i = 0; i < intermediateCoordinates3.length; i++) {
+    let latAl = intermediateCoordinates3[i][0];
+    let lngAl = intermediateCoordinates3[i][1];
+    let latLngAl = [latAl, lngAl];
     intermediateLatLngs3.push(latLngAl);
 
 
@@ -243,7 +243,7 @@ setTimeout(function(){
 let dataContainer3 = document.getElementById("dataContainer");
 
 // Boucle pour afficher les coordonnées dans la console et dans l'élément HTML
-for (var i = 0; i < intermediateCoordinates3.length; i++) {
+for (let i = 0; i < intermediateCoordinates3.length; i++) {
     
     // Créez un élément HTML pour chaque paire de coordonnées
     let coordinateElement = document.createElement("div");
@@ -259,24 +259,24 @@ for (var i = 0; i < intermediateCoordinates3.length; i++) {
 
 // Drone 4 : ******************************************************************************************************************************************************
 
-var intermediateCoordinates4 = [];
+let intermediateCoordinates4 = [];
 
 // Calcule des coordonnées 
-for (var i = 0; i <= numSteps; i++) {
-    var t = i / numSteps;
-    var coordsAl4 = interpolateCoordinates(startCoordinatesAller4, endCoordinatesAller4, t);
+for (let i = 0; i <= numSteps; i++) {
+    let t = i / numSteps;
+    let coordsAl4 = interpolateCoordinates(startCoordinatesAller4, endCoordinatesAller4, t);
     intermediateCoordinates4.push(coordsAl4);
-    var coordsRe4 = interpolateCoordinates(startCoordinatesRetour4, endCoordinatesRetour4, t);
+    let coordsRe4 = interpolateCoordinates(startCoordinatesRetour4, endCoordinatesRetour4, t);
     intermediateCoordinates4.push(coordsRe4);
 }
 
-var intermediateLatLngs4 = [];
+let intermediateLatLngs4 = [];
 
 // Convertion des coordonnées intermédiaires en format attendu par L.polyline
-for (var i = 0; i < intermediateCoordinates4.length; i++) {
-    var latAl = intermediateCoordinates4[i][0];
-    var lngAl = intermediateCoordinates4[i][1];
-    var latLngAl = [latAl, lngAl];
+for (let i = 0; i < intermediateCoordinates4.length; i++) {
+    let latAl = intermediateCoordinates4[i][0];
+    let lngAl = intermediateCoordinates4[i][1];
+    let latLngAl = [latAl, lngAl];
     intermediateLatLngs4.push(latLngAl);
 
 
@@ -304,7 +304,7 @@ map.addLayer(animatedMarker4);
 let dataContainer4 = document.getElementById("dataContainer");
 
 // Boucle pour afficher les coordonnées dans la console et dans l'élément HTML
-for (var i = 0; i < intermediateCoordinates4.length; i++) {
+for (let i = 0; i < intermediateCoordinates4.length; i++) {
     
     // Créez un élément HTML pour chaque paire de coordonnées
     let coordinateElement = document.createElement("div");
